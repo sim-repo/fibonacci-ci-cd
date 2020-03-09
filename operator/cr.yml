@@ -1,0 +1,14 @@
+apiVersion: otus.homework/v1
+kind: CI
+metadata:
+  name: test
+  namespace: stages
+spec:
+  tmp_namespace: tmp
+  image_postgres: postgres:12-alpine
+  image_redis: redis:latest
+  image_api: neogeowild/api:latest
+  image_worker: neogeowild/worker:latest
+  image_nginx: neogeowild/nginx:latest
+  image_app: neogeowild/app:latest
+       

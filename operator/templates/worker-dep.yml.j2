@@ -1,0 +1,25 @@
+# worker Deployment   
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: worker
+      namespace: {{ namespace }}
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: worker
+      template:
+        metadata:
+          labels:
+            app: worker
+        spec:
+          containers:
+          - image: {{ image_worker }}
+            name: worker
+            env:
+              - name: REDIS_HOST
+                value: redis
+              - name: REDIS_PORT
+                value: '6379'

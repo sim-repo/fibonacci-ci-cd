@@ -1,0 +1,37 @@
+# api
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: api
+      namespace: {{ namespace }}
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: api
+      template:
+        metadata:
+          labels:
+            app: api
+        spec:
+          containers:
+          - image: {{ image_api }}
+            name: api
+            env:
+              - name: REDIS_HOST
+                value: redis
+              - name: REDIS_PORT
+                value: '6379'
+              - name: PGHOST
+                value: postgres
+              - name: PGDATABASE
+                value: postgres
+              - name: PGPORT
+                value: '5432'
+              - name: PGUSER
+                value: postgres
+              - name: PGPASSWORD
+                value: postgres
+            ports:
+              - containerPort: 5000

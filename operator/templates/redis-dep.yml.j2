@@ -1,0 +1,22 @@
+# redis Deployment
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: redis
+      namespace: {{ namespace }}
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: redis
+      template:
+        metadata:
+          labels:
+            app: redis
+        spec:
+          containers:
+          - image: {{ image_redis }}
+            name: redis
+            ports:
+              - containerPort: 6379

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finish
+  namespace: {{ namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: finish
+  template:
+    metadata:
+      labels:
+        app: finish
+    spec:
+      containers:
+      - image: "neogeowild/get-started:part1"
+        name: finish

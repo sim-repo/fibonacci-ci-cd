@@ -1,0 +1,72 @@
+---
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: stages
+---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      creationTimestamp: null
+      name: ci-operator
+    rules:
+    - apiGroups:
+      - '*'
+      resources:
+      - '*'
+      verbs:
+      - '*' 
+---
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+        name: ci-operator
+        namespace: stages
+---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+        name: ci-operator
+        namespace: stages
+    roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+    subjects:
+        - kind: ServiceAccount
+          name: ci-operator
+          namespace: stages
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+    name: "ci-operator-service"
+    namespace: "stages"
+spec:
+    ports:
+    - protocol: "TCP"
+      port: 80
+    selector:
+        name: "ci-operator"
+    type: "ClusterIP"
+---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+        name: ci-operator
+        namespace: stages
+    spec:
+        replicas: 1
+        selector:
+            matchLabels:
+                name: ci-operator
+        template:
+            metadata:
+                labels:
+                    name: ci-operator
+            spec:
+                serviceAccountName: ci-operator
+                containers:
+                    - name: operator
+                      image: "neogeowild/micro-svc-operator:latest"
+                      imagePullPolicy: "Always"

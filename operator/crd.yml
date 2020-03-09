@@ -1,0 +1,58 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: ci.otus.homework # имя CRD должно иметь формат plural.group
+  namespace: stages
+spec:
+  scope: Namespaced     # Данный CRD будер работать в рамках namespace
+  group: otus.homework  # Группа, отражается в поле apiVersion CR
+  versions:             # Список версий
+    - name: v1
+      served: true      # Будет ли обслуживаться API-сервером данная версия
+      storage: true     # Фиксирует  версию описания, которая будет сохраняться в etcd
+  names:                # различные форматы имени объекта CR
+    kind: CI         # kind CR
+    plural: ci     
+    singular: ci
+    shortNames:
+      - ci
+  validation:
+    openAPIV3Schema:
+      type: object
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
+        metadata:
+          type: object
+          properties:
+            name:
+              type: string
+            namespace:
+              type: string
+        spec:
+          type: object
+          properties:
+            tmp_namespace:
+              type: string
+            image_postgres:
+              type: string
+            image_redis:
+              type: string
+            image_worker:
+              type: string
+            image_api:
+              type: string
+            image_nginx:
+              type: string
+            image_app:
+              type: string
+          required:
+          - tmp_namespace
+          - image_postgres
+          - image_redis
+          - image_worker
+          - image_api
+          - image_nginx
+          - image_app
