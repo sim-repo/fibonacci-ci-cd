@@ -39,8 +39,8 @@ try
     [[ $(kubectl delete deployment ci-operator -n stages) ]] # remove operator
     [[ $(kubectl create namespace $namespace) ]] # create ns
     [[ $(helm del cichart) ]] # remove chart-release
-    [[ $(kubectl apply -f ./operator/crd.yml) ]] # create crt
-    [[ $(kubectl apply -f ./operator/operator.yml) ]] # create operator
+    [[ $(kubectl apply -f ./fibonacci-ci-cd/operator/crd.yml) ]] # create crt
+    [[ $(kubectl apply -f ./fibonacci-ci-cd/operator/operator.yml) ]] # create operator
     echo "finished"
 )
 
